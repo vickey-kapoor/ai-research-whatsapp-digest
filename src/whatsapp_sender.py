@@ -41,9 +41,15 @@ def _truncate(text: str, max_len: int) -> str:
     return text[: max_len - 3].rsplit(" ", 1)[0] + "..."
 
 
+WHATSAPP_MAX_CHARS = 1600
+
+
 def format_research_message(research: dict) -> str:
     """
     Format research into a WhatsApp message with ELI5 summary.
+
+    Dynamically adjusts summary length to fit within WhatsApp's 1600 char limit.
+    Uses full summary when possible, truncates only when necessary.
 
     Args:
         research: Research paper dictionary with title, authors, description, url, summary
@@ -58,9 +64,25 @@ def format_research_message(research: dict) -> str:
     authors = _truncate(research.get("authors", "Unknown"), 60)
     source = research.get("source", "Unknown")
     url = research.get("url", "")
-
-    # ELI5 summary - no truncation, send full explanation
     summary = research.get("summary", "")
+
+    # Calculate fixed overhead (everything except summary)
+    template_overhead = len(f"""*Daily AI Research*
+
+*{title}*
+_{authors}_
+
+
+
+{url}
+_Source: {source}_""")
+
+    # Calculate available space for summary
+    available_for_summary = WHATSAPP_MAX_CHARS - template_overhead - 50  # 50 char buffer
+
+    # Truncate summary only if it exceeds available space
+    if len(summary) > available_for_summary:
+        summary = _truncate(summary, available_for_summary)
 
     # Build message
     message = f"""*Daily AI Research*
