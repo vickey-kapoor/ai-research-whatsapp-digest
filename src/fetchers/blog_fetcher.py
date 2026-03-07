@@ -2,8 +2,12 @@
 
 from datetime import datetime
 from typing import Optional
+import socket
 
 import feedparser
+
+# Timeout for feedparser requests (seconds)
+REQUEST_TIMEOUT = 30
 
 
 # Blog RSS feeds from major AI labs
@@ -56,10 +60,16 @@ def _parse_date(entry: dict) -> str:
 def _fetch_single_feed(source: str, url: str, max_per_source: int) -> list[dict]:
     """Fetch posts from a single RSS feed."""
     try:
-        feed = feedparser.parse(url)
+        # Set socket timeout for feedparser
+        old_timeout = socket.getdefaulttimeout()
+        socket.setdefaulttimeout(REQUEST_TIMEOUT)
+        try:
+            feed = feedparser.parse(url)
+        finally:
+            socket.setdefaulttimeout(old_timeout)
 
         if feed.bozo and not feed.entries:
-            print(f"Warning: {source} feed parse error: {feed.bozo_exception}")
+            print(f"Warning: {source} feed parse error")
             return []
 
         posts = []
@@ -95,8 +105,11 @@ def _fetch_single_feed(source: str, url: str, max_per_source: int) -> list[dict]
 
         return posts
 
-    except Exception as e:
-        print(f"Error fetching {source} blog: {e}")
+    except socket.timeout:
+        print(f"Error: {source} blog request timed out")
+        return []
+    except Exception:
+        print(f"Error: Failed to fetch {source} blog")
         return []
 
 

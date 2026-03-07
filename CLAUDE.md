@@ -94,6 +94,14 @@ AI agent, autonomous agent, reasoning, chain of thought, CoT, ReAct, tool use, p
 ## Schedule
 Daily at 10:00 AM CST (16:00 UTC) via GitHub Actions cron: `0 16 * * *`
 
+## Security Measures
+- **HTTPS only** - All API calls use HTTPS (arXiv, Hugging Face, PWC, blogs)
+- **Prompt injection protection** - User input sanitized before AI prompts
+- **URL validation** - URLs validated before including in messages
+- **Error masking** - Sensitive details not exposed in error logs
+- **Request timeouts** - 30s timeout on all network requests
+- **Pinned dependencies** - Exact versions in requirements.txt
+
 ## Testing Individual Fetchers
 ```bash
 # Test arXiv fetcher

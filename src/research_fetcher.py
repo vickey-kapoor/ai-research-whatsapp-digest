@@ -83,8 +83,8 @@ def fetch_ai_research(max_results: int = 5) -> list[dict]:
                 results = future.result()
                 print(f"Fetched {len(results)} items from {source}")
                 all_research.extend(results)
-            except Exception as e:
-                print(f"Error fetching from {source}: {e}")
+            except Exception:
+                print(f"Error: Failed to fetch from {source}")
 
     # Deduplicate by title similarity
     unique_research = _deduplicate_papers(all_research)

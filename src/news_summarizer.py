@@ -1,6 +1,45 @@
 """Generate ELI5 (Explain Like I'm 5) summaries for research papers."""
 
+import re
+
 from openai import OpenAI
+
+
+def _sanitize_text(text: str, max_length: int = 500) -> str:
+    """
+    Sanitize text to prevent prompt injection.
+
+    - Removes potential injection patterns
+    - Limits length
+    - Strips control characters
+    """
+    if not text:
+        return ""
+
+    # Remove control characters except newlines and tabs
+    text = re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]', '', text)
+
+    # Remove potential prompt injection patterns
+    injection_patterns = [
+        r'ignore\s+(previous|above|all)\s+instructions?',
+        r'disregard\s+(previous|above|all)',
+        r'forget\s+(everything|previous|above)',
+        r'new\s+instructions?:',
+        r'system\s*:',
+        r'assistant\s*:',
+        r'user\s*:',
+        r'\[INST\]',
+        r'\[/INST\]',
+        r'<\|.*?\|>',
+    ]
+    for pattern in injection_patterns:
+        text = re.sub(pattern, '[FILTERED]', text, flags=re.IGNORECASE)
+
+    # Truncate to max length
+    if len(text) > max_length:
+        text = text[:max_length] + "..."
+
+    return text.strip()
 
 
 def summarize_research(research: dict, api_key: str) -> dict:
@@ -21,13 +60,16 @@ def summarize_research(research: dict, api_key: str) -> dict:
 
     client = OpenAI(api_key=api_key)
 
-    authors = research.get("authors", "Unknown")
+    # Sanitize inputs to prevent prompt injection
+    title = _sanitize_text(research.get("title", ""), 200)
+    authors = _sanitize_text(research.get("authors", "Unknown"), 100)
+    abstract = _sanitize_text(research.get("description", ""), 500)
 
     prompt = f"""You explain AI research to someone with NO technical background - like a grandma or a kid.
 
-Paper: {research['title']}
+Paper: {title}
 Authors: {authors}
-Abstract: {research['description']}
+Abstract: {abstract}
 
 Write 4-5 simple sentences explaining:
 1. What problem were the researchers trying to solve?
@@ -59,6 +101,6 @@ Now write the summary:"""
         research_with_summary["summary"] = summary
         return research_with_summary
 
-    except Exception as e:
-        print(f"Warning: Could not generate summary: {e}")
+    except Exception:
+        print("Warning: Could not generate summary")
         return research

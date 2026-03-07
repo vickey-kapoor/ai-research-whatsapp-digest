@@ -3,11 +3,16 @@
 from datetime import datetime, timedelta
 from typing import Optional
 import urllib.parse
+import socket
 
 import feedparser
 
 
-ARXIV_API_URL = "http://export.arxiv.org/api/query"
+# Use HTTPS for secure communication
+ARXIV_API_URL = "https://export.arxiv.org/api/query"
+
+# Timeout for feedparser requests (seconds)
+REQUEST_TIMEOUT = 30
 
 # Keywords for AI Agents & Reasoning research
 AGENT_REASONING_KEYWORDS = [
@@ -50,10 +55,16 @@ def fetch_arxiv_papers(max_results: int = 5) -> list[dict]:
     url = f"{ARXIV_API_URL}?{urllib.parse.urlencode(params)}"
 
     try:
-        feed = feedparser.parse(url)
+        # Set socket timeout for feedparser
+        old_timeout = socket.getdefaulttimeout()
+        socket.setdefaulttimeout(REQUEST_TIMEOUT)
+        try:
+            feed = feedparser.parse(url)
+        finally:
+            socket.setdefaulttimeout(old_timeout)
 
         if feed.bozo and not feed.entries:
-            print(f"Warning: arXiv feed parse error: {feed.bozo_exception}")
+            print("Warning: arXiv feed parse error")
             return []
 
         papers = []
@@ -96,6 +107,9 @@ def fetch_arxiv_papers(max_results: int = 5) -> list[dict]:
 
         return papers
 
-    except Exception as e:
-        print(f"Error fetching arXiv papers: {e}")
+    except socket.timeout:
+        print("Error: arXiv request timed out")
+        return []
+    except Exception:
+        print("Error: Failed to fetch arXiv papers")
         return []

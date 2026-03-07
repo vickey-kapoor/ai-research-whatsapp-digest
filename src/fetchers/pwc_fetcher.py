@@ -114,9 +114,12 @@ def fetch_pwc_papers(max_results: int = 5) -> list[dict]:
 
         return papers
 
-    except requests.RequestException as e:
-        print(f"Error fetching Papers With Code: {e}")
+    except requests.Timeout:
+        print("Error: Papers With Code request timed out")
         return []
-    except Exception as e:
-        print(f"Error parsing Papers With Code response: {e}")
+    except requests.RequestException:
+        print("Error: Failed to fetch Papers With Code")
+        return []
+    except Exception:
+        print("Error: Failed to parse Papers With Code response")
         return []

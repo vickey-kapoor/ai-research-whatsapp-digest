@@ -76,11 +76,18 @@ def fetch_huggingface_papers(max_results: int = 5) -> list[dict]:
             if len(abstract) > 500:
                 abstract = abstract[:497] + "..."
 
+            # Validate paper ID before constructing URL
+            paper_id = paper.get('id', '')
+            if paper_id and isinstance(paper_id, str):
+                paper_url = f"https://huggingface.co/papers/{paper_id}"
+            else:
+                paper_url = "https://huggingface.co/papers"
+
             paper_dict = {
                 "title": title.strip(),
                 "description": abstract.replace("\n", " ").strip(),
                 "source": "Hugging Face",
-                "url": f"https://huggingface.co/papers/{paper.get('id', '')}",
+                "url": paper_url,
                 "published_at": published_at,
                 "type": "research",
                 "authors": authors,
@@ -93,9 +100,12 @@ def fetch_huggingface_papers(max_results: int = 5) -> list[dict]:
 
         return papers
 
-    except requests.RequestException as e:
-        print(f"Error fetching Hugging Face papers: {e}")
+    except requests.Timeout:
+        print("Error: Hugging Face request timed out")
         return []
-    except Exception as e:
-        print(f"Error parsing Hugging Face response: {e}")
+    except requests.RequestException:
+        print("Error: Failed to fetch Hugging Face papers")
+        return []
+    except Exception:
+        print("Error: Failed to parse Hugging Face response")
         return []

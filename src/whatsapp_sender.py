@@ -1,6 +1,46 @@
 """Send WhatsApp messages using Twilio."""
 
+import re
+from urllib.parse import urlparse
+
 from twilio.rest import Client
+
+
+def _validate_url(url: str) -> str:
+    """
+    Validate and sanitize URL.
+
+    Returns empty string if URL is invalid or potentially malicious.
+    """
+    if not url or not isinstance(url, str):
+        return ""
+
+    url = url.strip()
+
+    # Only allow http and https schemes
+    try:
+        parsed = urlparse(url)
+        if parsed.scheme not in ("http", "https"):
+            return ""
+        if not parsed.netloc:
+            return ""
+    except Exception:
+        return ""
+
+    # Block suspicious patterns
+    suspicious_patterns = [
+        r'javascript:',
+        r'data:',
+        r'vbscript:',
+        r'<script',
+        r'onclick',
+        r'onerror',
+    ]
+    for pattern in suspicious_patterns:
+        if re.search(pattern, url, re.IGNORECASE):
+            return ""
+
+    return url
 
 
 def send_whatsapp_message(
@@ -63,7 +103,7 @@ def format_research_message(research: dict) -> str:
     title = research.get("title", "Untitled")
     authors = _truncate(research.get("authors", "Unknown"), 60)
     source = research.get("source", "Unknown")
-    url = research.get("url", "")
+    url = _validate_url(research.get("url", ""))
     summary = research.get("summary", "")
 
     # Calculate fixed overhead (everything except summary)
