@@ -104,3 +104,85 @@ Now write the summary:"""
     except Exception:
         print("Warning: Could not generate summary")
         return research
+
+
+def summarize_research_detailed(research: dict, api_key: str) -> dict:
+    """
+    Generate a detailed, comprehensive summary for PDF reports.
+
+    Much longer than WhatsApp summary - full grandma-friendly explanation.
+
+    Args:
+        research: Research paper dictionary with title, description, source, url, authors
+        api_key: OpenAI API key
+
+    Returns:
+        Research dictionary with added 'detailed_summary' field
+    """
+    if not api_key:
+        return research
+
+    client = OpenAI(api_key=api_key)
+
+    # Sanitize inputs
+    title = _sanitize_text(research.get("title", ""), 200)
+    authors = _sanitize_text(research.get("authors", "Unknown"), 100)
+    abstract = _sanitize_text(research.get("description", ""), 800)
+
+    prompt = f"""You are a patient, warm science communicator explaining cutting-edge AI research to someone with NO technical background - like explaining to your curious grandma who wants to understand what her grandkid is working on.
+
+Paper: {title}
+Authors: {authors}
+Abstract: {abstract}
+
+Write a DETAILED explanation (8-12 paragraphs) covering:
+
+1. **The Big Picture** (2-3 paragraphs)
+   - What area of AI is this about? Explain it simply.
+   - Why are scientists working on this problem?
+   - What was missing or broken before this research?
+
+2. **What They Did** (2-3 paragraphs)
+   - What did the researchers actually build or discover?
+   - Use a vivid everyday analogy (cooking, gardening, teaching kids, organizing a closet, etc.)
+   - Walk through how it works step by step, like explaining a recipe
+
+3. **Why It's Clever** (1-2 paragraphs)
+   - What makes this approach special or different?
+   - What's the "aha!" moment?
+
+4. **Real World Impact** (2-3 paragraphs)
+   - How might this affect regular people's lives in 5-10 years?
+   - Give concrete examples (your phone, your car, your doctor, shopping, etc.)
+   - What problems could this help solve?
+
+5. **The Bottom Line** (1 paragraph)
+   - Summarize in 2-3 sentences what grandma should remember
+
+RULES:
+- NO jargon whatsoever
+- NO technical terms (no "model", "algorithm", "neural network", "training", "parameters", "architecture", "benchmark")
+- Use analogies from everyday life
+- Write like you're having coffee with grandma
+- Be warm, patient, and encouraging
+- Use "you" and "your" to make it personal
+- It's OK to be longer - grandma has time and wants to understand!
+
+Now write the detailed explanation:"""
+
+    try:
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[{"role": "user", "content": prompt}],
+            max_tokens=1500,
+            temperature=0.7,
+        )
+
+        detailed_summary = response.choices[0].message.content.strip()
+        research_with_summary = research.copy()
+        research_with_summary["detailed_summary"] = detailed_summary
+        return research_with_summary
+
+    except Exception:
+        print("Warning: Could not generate detailed summary")
+        return research

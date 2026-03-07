@@ -82,7 +82,10 @@ def generate_research_pdf(research: dict, output_dir: str = "reports") -> str:
     title = _sanitize_text_for_pdf(research.get("title", "Today's AI Discovery"))
     authors = _sanitize_text_for_pdf(research.get("authors", "Unknown researchers"))
     source = _sanitize_text_for_pdf(research.get("source", "Unknown"))
-    summary = _sanitize_text_for_pdf(research.get("summary", ""))
+    # Use detailed_summary for PDF if available, fallback to short summary
+    summary = _sanitize_text_for_pdf(
+        research.get("detailed_summary", "") or research.get("summary", "")
+    )
     description = _sanitize_text_for_pdf(research.get("description", ""))
     url = research.get("url", "")
 
@@ -113,33 +116,33 @@ def generate_research_pdf(research: dict, output_dir: str = "reports") -> str:
     pdf.line(20, pdf.get_y(), 190, pdf.get_y())
     pdf.ln(10)
 
-    # "What's This About?" section
+    # "What's This About?" section - the main detailed explanation
     pdf.set_font("Helvetica", "B", 14)
     pdf.set_text_color(50, 100, 50)
-    pdf.cell(0, 10, "What's This About?", new_x="LMARGIN", new_y="NEXT")
+    pdf.cell(0, 10, "What's This About? (In Simple Terms)", new_x="LMARGIN", new_y="NEXT")
     pdf.ln(2)
 
-    # Simple explanation (ELI5 summary)
+    # Detailed explanation (ELI5 summary) - use readable font size
     if summary:
-        pdf.set_font("Helvetica", "", 13)
+        pdf.set_font("Helvetica", "", 11)
         pdf.set_text_color(40, 40, 40)
-        pdf.multi_cell(0, 8, summary)
+        pdf.multi_cell(0, 6, summary)
         pdf.ln(10)
 
     # Divider line
     pdf.line(20, pdf.get_y(), 190, pdf.get_y())
     pdf.ln(10)
 
-    # "The Technical Bit" section (optional - original abstract)
+    # "The Technical Bit" section (optional - original abstract) - smaller, for reference
     if description:
-        pdf.set_font("Helvetica", "B", 12)
+        pdf.set_font("Helvetica", "B", 11)
         pdf.set_text_color(100, 100, 100)
-        pdf.cell(0, 10, "The Technical Details (for the curious)", new_x="LMARGIN", new_y="NEXT")
+        pdf.cell(0, 8, "Original Research Abstract (Technical)", new_x="LMARGIN", new_y="NEXT")
         pdf.ln(2)
 
-        pdf.set_font("Helvetica", "", 10)
-        pdf.set_text_color(80, 80, 80)
-        pdf.multi_cell(0, 6, description)
+        pdf.set_font("Helvetica", "I", 9)
+        pdf.set_text_color(100, 100, 100)
+        pdf.multi_cell(0, 5, description)
         pdf.ln(10)
 
     # Link section

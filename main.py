@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 from src.research_fetcher import fetch_ai_research
 from src.news_ranker import rank_research
-from src.news_summarizer import summarize_research
+from src.news_summarizer import summarize_research, summarize_research_detailed
 from src.whatsapp_sender import format_research_message, send_whatsapp_message
 from src.pdf_generator import generate_research_pdf
 
@@ -64,14 +64,23 @@ def main():
         print(f"Error ranking research: {e}")
         top_research = research_items[0]
 
-    # Generate ELI5 summary
-    print("Generating simple summary...")
+    # Generate short summary for WhatsApp
+    print("Generating WhatsApp summary...")
     try:
         top_research = summarize_research(top_research, openai_key)
         if "summary" in top_research:
-            print("Generated ELI5 summary")
+            print("Generated short summary for WhatsApp")
     except Exception:
-        print("Warning: Could not generate summary")
+        print("Warning: Could not generate WhatsApp summary")
+
+    # Generate detailed summary for PDF
+    print("Generating detailed PDF summary...")
+    try:
+        top_research = summarize_research_detailed(top_research, openai_key)
+        if "detailed_summary" in top_research:
+            print("Generated detailed summary for PDF")
+    except Exception:
+        print("Warning: Could not generate detailed summary")
 
     # Generate PDF report
     print("Generating PDF report...")
