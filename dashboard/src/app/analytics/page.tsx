@@ -5,11 +5,9 @@ import { SourceChart } from "@/components/charts/source-chart";
 import { TrendsChart } from "@/components/charts/trends-chart";
 import { TopicsChart } from "@/components/charts/topics-chart";
 
-export const dynamic = 'force-dynamic';
-
-export default async function AnalyticsPage() {
-  const papers = await getPapers();
-  const digests = await getDigests();
+export default function AnalyticsPage() {
+  const papers = getPapers();
+  const digests = getDigests();
 
   // Calculate source distribution
   const sourceCounts = papers.reduce((acc, p) => {

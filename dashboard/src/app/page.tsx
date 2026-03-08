@@ -12,12 +12,10 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
-export const dynamic = 'force-dynamic';
-
-export default async function DashboardPage() {
-  const stats = await getStats();
-  const papers = await getPapers();
-  const digests = await getDigests();
+export default function DashboardPage() {
+  const stats = getStats();
+  const papers = getPapers();
+  const digests = getDigests();
 
   // Get latest digest
   const latestDigest = digests[0];

@@ -11,10 +11,8 @@ import {
   ExternalLink,
 } from "lucide-react";
 
-export const dynamic = 'force-dynamic';
-
-export default async function SettingsPage() {
-  const config = await getConfig();
+export default function SettingsPage() {
+  const config = getConfig();
 
   return (
     <div className="p-8">

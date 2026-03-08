@@ -3,14 +3,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink, Filter, Star, BookOpen, CheckCircle } from "lucide-react";
 
-export const dynamic = 'force-dynamic';
-
-export default async function PapersPage({
+export default function PapersPage({
   searchParams,
 }: {
   searchParams: { source?: string; topic?: string; status?: string };
 }) {
-  const papers = await getPapers();
+  const papers = getPapers();
 
   // Filter papers based on search params
   let filteredPapers = papers;
