@@ -5,7 +5,7 @@ This fetcher returns an empty list if the API is unavailable.
 """
 
 from datetime import datetime
-from typing import Optional, Tuple
+from typing import Tuple
 
 import requests
 

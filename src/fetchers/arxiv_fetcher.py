@@ -1,7 +1,6 @@
 """Fetch AI research papers from arXiv."""
 
 from datetime import datetime, timedelta
-from typing import Optional
 import urllib.parse
 import socket
 

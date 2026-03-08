@@ -1,7 +1,6 @@
 """Fetch AI research posts from major AI lab blogs."""
 
 from datetime import datetime
-from typing import Optional
 import socket
 
 import feedparser

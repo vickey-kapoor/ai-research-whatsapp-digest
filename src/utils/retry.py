@@ -85,37 +85,3 @@ def retry_with_backoff(
         return wrapper
 
     return decorator
-
-
-def retry_on_rate_limit(
-    max_retries: int = 5,
-    base_delay: float = 2.0,
-) -> Callable:
-    """
-    Specialized retry decorator for API rate limiting.
-
-    Uses longer delays and more retries appropriate for rate-limited APIs.
-
-    Args:
-        max_retries: Maximum retry attempts (default: 5)
-        base_delay: Initial delay in seconds (default: 2.0)
-
-    Returns:
-        Decorated function with rate-limit aware retry logic
-    """
-    # Import here to avoid circular imports
-    import openai
-
-    rate_limit_exceptions = (
-        openai.RateLimitError,
-        openai.APIConnectionError,
-    )
-
-    return retry_with_backoff(
-        max_retries=max_retries,
-        base_delay=base_delay,
-        max_delay=60.0,
-        exponential_base=2.0,
-        jitter=True,
-        exceptions=rate_limit_exceptions,
-    )

@@ -1,7 +1,6 @@
 """Fetch AI research papers from Hugging Face Daily Papers."""
 
 from datetime import datetime
-from typing import Optional
 
 import requests
 

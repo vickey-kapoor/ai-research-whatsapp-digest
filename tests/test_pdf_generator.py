@@ -9,7 +9,6 @@ import pytest
 from src.pdf_generator import (
     _sanitize_text_for_pdf,
     generate_research_pdf,
-    generate_multi_research_pdf,
 )
 
 
@@ -120,36 +119,3 @@ class TestGenerateResearchPdf:
             # Should not raise exception
             pdf_path = generate_research_pdf(paper, output_dir=tmpdir)
             assert os.path.exists(pdf_path)
-
-
-class TestGenerateMultiResearchPdf:
-    """Tests for multi-research PDF generation."""
-
-    def test_empty_list_returns_empty_string(self):
-        """Test that empty list returns empty string."""
-        result = generate_multi_research_pdf([])
-        assert result == ""
-
-    def test_generate_multi_pdf_creates_file(self, sample_papers):
-        """Test that multi-research PDF is created."""
-        # Add summaries to papers
-        for paper in sample_papers:
-            paper["summary"] = "Test summary"
-
-        with tempfile.TemporaryDirectory() as tmpdir:
-            pdf_path = generate_multi_research_pdf(sample_papers, output_dir=tmpdir)
-
-            assert os.path.exists(pdf_path)
-            assert pdf_path.endswith(".pdf")
-            assert "AI_Research_Digest" in pdf_path
-
-    def test_generate_multi_pdf_contains_all_papers(self, sample_papers):
-        """Test that PDF contains all research items."""
-        for paper in sample_papers:
-            paper["summary"] = "Test summary"
-
-        with tempfile.TemporaryDirectory() as tmpdir:
-            pdf_path = generate_multi_research_pdf(sample_papers, output_dir=tmpdir)
-
-            # File should be substantial (contains multiple papers)
-            assert os.path.getsize(pdf_path) > 2000
