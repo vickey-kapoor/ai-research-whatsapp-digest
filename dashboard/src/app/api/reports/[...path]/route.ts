@@ -40,6 +40,24 @@ async function fetchReportFromGithub(path: string): Promise<Response | null> {
       }
     } catch (error) {
       console.warn(`Failed to fetch report from branch ${branch}:`, error);
+const DEFAULT_REPO = process.env.GITHUB_REPO ?? 'vickey-kapoor/ai-research-whatsapp-digest';
+const DEFAULT_BRANCH = process.env.GITHUB_BRANCH ?? 'main';
+
+async function fetchReportFromGithub(path: string): Promise<Response | null> {
+  const base = `https://raw.githubusercontent.com/${DEFAULT_REPO}`;
+
+  const branchesToTry = [DEFAULT_BRANCH, 'master'].filter(
+    (branch, index, arr) => arr.indexOf(branch) === index
+  );
+
+  for (const branch of branchesToTry) {
+    const githubUrl = `${base}/${branch}/reports/${path}`;
+    const response = await fetch(githubUrl, {
+      next: { revalidate: 3600 },
+    });
+
+    if (response.ok) {
+      return response;
     }
   }
 
@@ -54,6 +72,12 @@ export async function GET(
 ) {
   try {
     const params = await context.params;
+
+export async function GET(
+  _request: NextRequest,
+  { params }: { params: { path: string[] } }
+) {
+  try {
     const filePath = params.path.join('/').replace(/^reports\//, '');
 
     if (filePath.includes('..')) {
