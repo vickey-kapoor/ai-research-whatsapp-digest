@@ -5,9 +5,9 @@ import { SourceChart } from "@/components/charts/source-chart";
 import { TrendsChart } from "@/components/charts/trends-chart";
 import { TopicsChart } from "@/components/charts/topics-chart";
 
-export default function AnalyticsPage() {
-  const papers = getPapers();
-  const digests = getDigests();
+export default async function AnalyticsPage() {
+  const papers = await getPapers();
+  const digests = await getDigests();
 
   // Calculate source distribution
   const sourceCounts = papers.reduce((acc, p) => {
@@ -51,8 +51,8 @@ export default function AnalyticsPage() {
     ? papers.reduce((acc, p) => acc + (p.ranking_score || 0), 0) / papers.length
     : 0;
 
-  // Success rate of WhatsApp sends
-  const sentDigests = digests.filter(d => d.whatsapp_sent).length;
+  // Success rate of Telegram sends
+  const sentDigests = digests.filter(d => d.telegram_sent).length;
   const successRate = digests.length > 0
     ? Math.round((sentDigests / digests.length) * 100)
     : 0;
@@ -105,7 +105,7 @@ export default function AnalyticsPage() {
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-gray-500">
-              WhatsApp Success
+              Telegram Success
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -189,7 +189,7 @@ export default function AnalyticsPage() {
                   <tr className="border-b border-gray-200">
                     <th className="text-left py-3 px-4 font-medium text-gray-500">Date</th>
                     <th className="text-left py-3 px-4 font-medium text-gray-500">Papers</th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-500">WhatsApp</th>
+                    <th className="text-left py-3 px-4 font-medium text-gray-500">Telegram</th>
                     <th className="text-left py-3 px-4 font-medium text-gray-500">PDF</th>
                   </tr>
                 </thead>
@@ -200,11 +200,11 @@ export default function AnalyticsPage() {
                       <td className="py-3 px-4">{digest.papers_fetched}</td>
                       <td className="py-3 px-4">
                         <span className={`inline-flex px-2 py-1 rounded-full text-xs ${
-                          digest.whatsapp_sent
+                          digest.telegram_sent
                             ? 'bg-green-100 text-green-700'
                             : 'bg-gray-100 text-gray-600'
                         }`}>
-                          {digest.whatsapp_sent ? 'Sent' : 'Not Sent'}
+                          {digest.telegram_sent ? 'Sent' : 'Not Sent'}
                         </span>
                       </td>
                       <td className="py-3 px-4">

@@ -3,16 +3,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink, Filter, Star, BookOpen, CheckCircle } from "lucide-react";
 
-export default function PapersPage({
+export default async function PapersPage({
   searchParams,
 }: {
-  searchParams: { source?: string; topic?: string; status?: string };
+  searchParams: Promise<{ source?: string; topic?: string; status?: string }>;
 }) {
-  const papers = getPapers();
+  const papers = await getPapers();
+  const params = await searchParams;
 
   // Filter papers based on search params
   let filteredPapers = papers;
-  const { source, topic, status } = searchParams;
+  const { source, topic, status } = params;
   if (source) {
     filteredPapers = filteredPapers.filter(p => p.source === source);
   }
@@ -65,24 +66,24 @@ export default function PapersPage({
                 <a
                   href="/papers"
                   className={`px-3 py-1 rounded-full text-sm ${
-                    !searchParams.source
+                    !params.source
                       ? "bg-blue-600 text-white"
                       : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                   }`}
                 >
                   All
                 </a>
-                {sources.map((source) => (
+                {sources.map((s) => (
                   <a
-                    key={source}
-                    href={`/papers?source=${encodeURIComponent(source)}`}
+                    key={s}
+                    href={`/papers?source=${encodeURIComponent(s)}`}
                     className={`px-3 py-1 rounded-full text-sm ${
-                      searchParams.source === source
+                      params.source === s
                         ? "bg-blue-600 text-white"
                         : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                     }`}
                   >
-                    {source}
+                    {s}
                   </a>
                 ))}
               </div>
@@ -95,24 +96,24 @@ export default function PapersPage({
                 <a
                   href="/papers"
                   className={`px-3 py-1 rounded-full text-sm ${
-                    !searchParams.topic
+                    !params.topic
                       ? "bg-blue-600 text-white"
                       : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                   }`}
                 >
                   All
                 </a>
-                {topics.map((topic) => (
+                {topics.map((t) => (
                   <a
-                    key={topic}
-                    href={`/papers?topic=${encodeURIComponent(topic)}`}
+                    key={t}
+                    href={`/papers?topic=${encodeURIComponent(t)}`}
                     className={`px-3 py-1 rounded-full text-sm ${
-                      searchParams.topic === topic
+                      params.topic === t
                         ? "bg-blue-600 text-white"
                         : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                     }`}
                   >
-                    {topic}
+                    {t}
                   </a>
                 ))}
               </div>
@@ -125,24 +126,24 @@ export default function PapersPage({
                 <a
                   href="/papers"
                   className={`px-3 py-1 rounded-full text-sm ${
-                    !searchParams.status
+                    !params.status
                       ? "bg-blue-600 text-white"
                       : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                   }`}
                 >
                   All
                 </a>
-                {['unread', 'read', 'starred'].map((status) => (
+                {['unread', 'read', 'starred'].map((s) => (
                   <a
-                    key={status}
-                    href={`/papers?status=${status}`}
+                    key={s}
+                    href={`/papers?status=${s}`}
                     className={`px-3 py-1 rounded-full text-sm capitalize ${
-                      searchParams.status === status
+                      params.status === s
                         ? "bg-blue-600 text-white"
                         : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                     }`}
                   >
-                    {status}
+                    {s}
                   </a>
                 ))}
               </div>
@@ -185,7 +186,7 @@ export default function PapersPage({
                           {topic}
                         </Badge>
                       ))}
-                      {paper.ranking_score && (
+                      {paper.ranking_score > 0 && (
                         <Badge variant="default">
                           Score: {paper.ranking_score}/10
                         </Badge>

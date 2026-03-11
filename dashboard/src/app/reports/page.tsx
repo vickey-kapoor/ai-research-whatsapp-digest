@@ -4,15 +4,16 @@ import { Badge } from "@/components/ui/badge";
 import { Calendar, FileText, ExternalLink } from "lucide-react";
 import Link from "next/link";
 
-export default function ReportsPage({
+export default async function ReportsPage({
   searchParams,
 }: {
-  searchParams: { date?: string };
+  searchParams: Promise<{ date?: string }>;
 }) {
-  const reportDates = getReportDates();
-  const digests = getDigests();
+  const reportDates = await getReportDates();
+  const digests = await getDigests();
+  const params = await searchParams;
 
-  const selectedDate = searchParams.date || reportDates[0];
+  const selectedDate = params.date || reportDates[0];
 
   // Find corresponding digest info
   const selectedDigest = digests.find((d) => {
@@ -86,9 +87,9 @@ export default function ReportsPage({
                   <p className="font-medium">{selectedDigest.papers_fetched}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500">WhatsApp</p>
-                  <Badge variant={selectedDigest.whatsapp_sent ? "success" : "secondary"}>
-                    {selectedDigest.whatsapp_sent ? "Sent" : "Not Sent"}
+                  <p className="text-xs text-gray-500">Telegram</p>
+                  <Badge variant={selectedDigest.telegram_sent ? "success" : "secondary"}>
+                    {selectedDigest.telegram_sent ? "Sent" : "Not Sent"}
                   </Badge>
                 </div>
                 {selectedDigest.workflow_run_id && (

@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "AI Research Command Center",
-  description: "Dashboard for AI Research WhatsApp Digest",
+  description: "Dashboard for AI Research Telegram Digest",
 };
 
 export default function RootLayout({

@@ -6,7 +6,7 @@ import {
   Search,
   Database,
   Clock,
-  MessageSquare,
+  Send,
   Github,
   ExternalLink,
 } from "lucide-react";
@@ -45,7 +45,7 @@ export default function SettingsPage() {
               ))}
             </div>
             <p className="text-xs text-gray-400 mt-4">
-              Edit keywords in data/config.json
+              Edit keywords in src/constants.py
             </p>
           </CardContent>
         </Card>
@@ -127,12 +127,12 @@ export default function SettingsPage() {
           </CardContent>
         </Card>
 
-        {/* WhatsApp */}
+        {/* Telegram */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <MessageSquare className="h-5 w-5 text-green-600" />
-              WhatsApp Notifications
+              <Send className="h-5 w-5 text-blue-500" />
+              Telegram Notifications
             </CardTitle>
             <CardDescription>
               Message delivery settings
@@ -142,17 +142,17 @@ export default function SettingsPage() {
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <span className="font-medium">Status</span>
-                <Badge variant={config.whatsapp_enabled ? "success" : "secondary"}>
-                  {config.whatsapp_enabled ? "Enabled" : "Disabled"}
+                <Badge variant={config.telegram_enabled ? "success" : "secondary"}>
+                  {config.telegram_enabled ? "Enabled" : "Disabled"}
                 </Badge>
               </div>
               <div>
                 <p className="text-sm text-gray-500">Provider</p>
-                <p className="font-medium">Twilio WhatsApp API</p>
+                <p className="font-medium">Telegram Bot API</p>
               </div>
               <div>
                 <p className="text-sm text-gray-500">Message Format</p>
-                <p className="font-medium">ELI5 Summary (max 1600 chars)</p>
+                <p className="font-medium">ELI5 Summary with Markdown</p>
               </div>
             </div>
           </CardContent>
@@ -211,10 +211,9 @@ export default function SettingsPage() {
         <div className="flex items-start gap-3">
           <SettingsIcon className="h-5 w-5 text-blue-600 mt-0.5" />
           <div>
-            <p className="font-medium text-blue-900">Configuration Files</p>
+            <p className="font-medium text-blue-900">Configuration</p>
             <p className="text-sm text-blue-700 mt-1">
-              Settings are stored in <code className="bg-blue-100 px-1 rounded">data/config.json</code>.
-              Edit this file directly or update via GitHub to change configuration.
+              Settings are defined in <code className="bg-blue-100 px-1 rounded">src/constants.py</code>.
               Changes take effect on the next workflow run.
             </p>
           </div>

@@ -12,10 +12,10 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
-export default function DashboardPage() {
-  const stats = getStats();
-  const papers = getPapers();
-  const digests = getDigests();
+export default async function DashboardPage() {
+  const stats = await getStats();
+  const papers = await getPapers();
+  const digests = await getDigests();
 
   // Get latest digest
   const latestDigest = digests[0];
@@ -63,7 +63,7 @@ export default function DashboardPage() {
           <CardContent>
             <div className="text-2xl font-bold">{stats.totalDigests}</div>
             <p className="text-xs text-gray-500 mt-1">
-              {latestDigest?.whatsapp_sent ? "Latest sent" : "Pending"}
+              {latestDigest?.telegram_sent ? "Latest sent" : "Pending"}
             </p>
           </CardContent>
         </Card>
@@ -141,7 +141,7 @@ export default function DashboardPage() {
                       <ExternalLink className="h-3 w-3" />
                     </a>
                   </div>
-                  {topPaper.ranking_score && (
+                  {topPaper.ranking_score > 0 && (
                     <div className="mt-4 pt-4 border-t border-gray-100">
                       <div className="flex items-center gap-2">
                         <span className="text-sm text-gray-500">Relevance Score:</span>
@@ -185,9 +185,9 @@ export default function DashboardPage() {
                   <p className="font-medium">{latestDigest.papers_fetched}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">WhatsApp Status</p>
-                  <Badge variant={latestDigest.whatsapp_sent ? "success" : "warning"}>
-                    {latestDigest.whatsapp_sent ? "Sent" : "Pending"}
+                  <p className="text-sm text-gray-500">Telegram Status</p>
+                  <Badge variant={latestDigest.telegram_sent ? "success" : "warning"}>
+                    {latestDigest.telegram_sent ? "Sent" : "Pending"}
                   </Badge>
                 </div>
                 {latestDigest.pdf_path && (
