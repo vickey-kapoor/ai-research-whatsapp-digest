@@ -68,8 +68,8 @@ Use [crontab.guru](https://crontab.guru/) to customize.
 
 ```bash
 # Clone the repository
-git clone https://github.com/vickey-kapoor/ai-research-whatsapp-digest.git
-cd ai-research-whatsapp-digest
+git clone https://github.com/vickey-kapoor/ai-research-digest.git
+cd ai-research-digest
 
 # Create virtual environment
 python -m venv venv
@@ -90,7 +90,7 @@ python main.py
 ## Project Structure
 
 ```
-ai-research-whatsapp-digest/
+ai-research-digest/
 ├── .github/workflows/
 │   └── daily-news.yml        # GitHub Actions (10 AM CST daily)
 ├── src/

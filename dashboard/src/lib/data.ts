@@ -34,7 +34,7 @@ export interface Config {
   telegram_enabled: boolean;
 }
 
-const REPO = 'vickey-kapoor/ai-research-whatsapp-digest';
+const REPO = 'vickey-kapoor/ai-research-digest';
 const BRANCH = 'master';
 const RAW_BASE = `https://raw.githubusercontent.com/${REPO}/${BRANCH}`;
 

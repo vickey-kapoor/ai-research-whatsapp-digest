@@ -5,7 +5,7 @@ import os
 # Application info
 APP_NAME = "AI Research Telegram Digest"
 APP_VERSION = "1.0.0"
-USER_AGENT = f"{APP_NAME}/{APP_VERSION} (https://github.com/vickey-kapoor/ai-research-whatsapp-digest)"
+USER_AGENT = f"{APP_NAME}/{APP_VERSION} (https://github.com/vickey-kapoor/ai-research-digest)"
 
 # Network settings
 REQUEST_TIMEOUT = 30  # seconds

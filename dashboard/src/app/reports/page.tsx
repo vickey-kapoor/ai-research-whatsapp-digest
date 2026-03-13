@@ -96,7 +96,7 @@ export default async function ReportsPage({
                   <div>
                     <p className="text-xs text-gray-500">Workflow Run</p>
                     <a
-                      href={`https://github.com/vickey-kapoor/ai-research-whatsapp-digest/actions/runs/${selectedDigest.workflow_run_id}`}
+                      href={`https://github.com/vickey-kapoor/ai-research-digest/actions/runs/${selectedDigest.workflow_run_id}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-sm text-blue-600 hover:underline inline-flex items-center gap-1"

@@ -180,19 +180,19 @@ export default function SettingsPage() {
               <div>
                 <p className="text-sm text-gray-500 mb-2">Repository</p>
                 <a
-                  href="https://github.com/vickey-kapoor/ai-research-whatsapp-digest"
+                  href="https://github.com/vickey-kapoor/ai-research-digest"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-600 hover:underline inline-flex items-center gap-1"
                 >
-                  vickey-kapoor/ai-research-whatsapp-digest
+                  vickey-kapoor/ai-research-digest
                   <ExternalLink className="h-4 w-4" />
                 </a>
               </div>
               <div className="md:col-span-2">
                 <p className="text-sm text-gray-500 mb-2">Manual Trigger</p>
                 <a
-                  href="https://github.com/vickey-kapoor/ai-research-whatsapp-digest/actions/workflows/daily-news.yml"
+                  href="https://github.com/vickey-kapoor/ai-research-digest/actions/workflows/daily-news.yml"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors"
