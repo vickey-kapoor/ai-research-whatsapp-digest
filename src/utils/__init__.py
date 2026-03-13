@@ -1,4 +1,4 @@
-"""Utility modules for AI Research WhatsApp Digest."""
+"""Utility modules for AI Research Telegram Digest."""
 
 from src.utils.retry import retry_with_backoff
 

@@ -1,6 +1,6 @@
-# AI Research WhatsApp Digest
+# AI Research Telegram Digest
 
-Get the latest AI research delivered to your WhatsApp daily - explained simply, like talking to a friend.
+Get the latest AI research delivered to your Telegram daily - explained simply, like talking to a friend.
 
 ## Features
 
@@ -8,7 +8,7 @@ Get the latest AI research delivered to your WhatsApp daily - explained simply, 
 - Focuses on **AI Agents & Reasoning** research
 - Uses AI to select the most impactful paper
 - Generates **ELI5 summaries** (simple explanations anyone can understand)
-- Sends to WhatsApp via Twilio
+- Sends to Telegram via Bot API
 - Runs automatically via GitHub Actions (10:00 AM CST daily)
 
 ## Example Message
@@ -34,11 +34,10 @@ _Source: arXiv_
 
 ### 1. Get API Keys
 
-**Twilio:**
-- Sign up at [twilio.com](https://www.twilio.com/)
-- Get Account SID and Auth Token from Console
-- Set up WhatsApp Sandbox: [Twilio WhatsApp Sandbox](https://www.twilio.com/console/sms/whatsapp/sandbox)
-- Send "join <sandbox-code>" from your WhatsApp to the Twilio number
+**Telegram:**
+- Create a bot via [BotFather](https://t.me/BotFather) on Telegram
+- Save the Bot Token
+- Get your Chat ID (send a message to your bot, then check `https://api.telegram.org/bot<TOKEN>/getUpdates`)
 
 **OpenAI:**
 - Sign up at [platform.openai.com](https://platform.openai.com/)
@@ -50,10 +49,8 @@ Go to your repository Settings > Secrets and variables > Actions, and add:
 
 | Secret | Description |
 |--------|-------------|
-| `TWILIO_ACCOUNT_SID` | Twilio Account SID |
-| `TWILIO_AUTH_TOKEN` | Twilio Auth Token |
-| `TWILIO_WHATSAPP_NUMBER` | Twilio WhatsApp number (e.g., `whatsapp:+14155238886`) |
-| `YOUR_WHATSAPP_NUMBER` | Your WhatsApp number (e.g., `whatsapp:+1234567890`) |
+| `TELEGRAM_BOT_TOKEN` | Telegram Bot Token from BotFather |
+| `TELEGRAM_CHAT_ID` | Target Telegram chat ID |
 | `OPENAI_API_KEY` | OpenAI API key (required for ranking & summaries) |
 
 ### 3. Adjust Schedule (Optional)
@@ -71,8 +68,8 @@ Use [crontab.guru](https://crontab.guru/) to customize.
 
 ```bash
 # Clone the repository
-git clone https://github.com/vickey-kapoor/ai-research-whatsapp-digest.git
-cd ai-research-whatsapp-digest
+git clone https://github.com/vickey-kapoor/ai-research-digest.git
+cd ai-research-digest
 
 # Create virtual environment
 python -m venv venv
@@ -82,10 +79,8 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 
 # Create .env file with your keys
-echo "TWILIO_ACCOUNT_SID=your_sid" >> .env
-echo "TWILIO_AUTH_TOKEN=your_token" >> .env
-echo "TWILIO_WHATSAPP_NUMBER=whatsapp:+14155238886" >> .env
-echo "YOUR_WHATSAPP_NUMBER=whatsapp:+1234567890" >> .env
+echo "TELEGRAM_BOT_TOKEN=your_bot_token" >> .env
+echo "TELEGRAM_CHAT_ID=your_chat_id" >> .env
 echo "OPENAI_API_KEY=your_openai_key" >> .env
 
 # Run
@@ -95,14 +90,14 @@ python main.py
 ## Project Structure
 
 ```
-ai-research-whatsapp-digest/
+ai-research-digest/
 ├── .github/workflows/
 │   └── daily-news.yml        # GitHub Actions (10 AM CST daily)
 ├── src/
 │   ├── research_fetcher.py   # Aggregates research from all sources
 │   ├── news_ranker.py        # AI-powered research ranking
 │   ├── news_summarizer.py    # ELI5 summary generator
-│   ├── whatsapp_sender.py    # Twilio WhatsApp integration
+│   ├── telegram_sender.py    # Telegram Bot API integration
 │   └── fetchers/
 │       ├── arxiv_fetcher.py      # arXiv API
 │       ├── huggingface_fetcher.py # Hugging Face Daily Papers
@@ -110,7 +105,6 @@ ai-research-whatsapp-digest/
 │       └── blog_fetcher.py       # AI lab blogs (Google, DeepMind, Meta)
 ├── main.py                   # Entry point
 ├── requirements.txt
-├── CLAUDE.md                 # Development reference
 └── README.md
 ```
 

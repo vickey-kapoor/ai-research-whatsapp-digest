@@ -13,7 +13,6 @@
       "top_paper_id": "18d9cdfe-a5fc-4fae-b635-400991da0b98",
       "papers_fetched": 10,
       "pdf_path": "reports/11-Mar/Do_What_I_Say_A_Spoken_Prompt_Dataset_for_Instruc.pdf",
-      "whatsapp_sent": true,
       "workflow_run_id": "22964538201",
       "telegram_sent": true
     },
@@ -22,7 +21,7 @@
       "top_paper_id": "c1bd5944-1840-4f04-abdd-1a4b573df328",
       "papers_fetched": 10,
       "pdf_path": "reports/10-Mar/Agentic_Critical_Training.pdf",
-      "whatsapp_sent": true,
+      "telegram_sent": true,
       "workflow_run_id": "22914378486"
     },
     {
@@ -30,7 +29,7 @@
       "top_paper_id": "b25e85b1-4c01-45ee-99fd-7aa7bba7d03e",
       "papers_fetched": 10,
       "pdf_path": "reports/09-Mar/SUREON_A_Benchmark_and_Vision-Language-Model_for.pdf",
-      "whatsapp_sent": true,
+      "telegram_sent": true,
       "workflow_run_id": "22865002136"
     },
     {
@@ -38,7 +37,7 @@
       "top_paper_id": null,
       "papers_fetched": 10,
       "pdf_path": "reports/08-Mar/Distributed_Partial_Information_Puzzles_Examining.pdf",
-      "whatsapp_sent": true,
+      "telegram_sent": true,
       "workflow_run_id": "22825242443"
     }
   ]

@@ -1,6 +1,6 @@
 # AI Research Command Center Dashboard
 
-A Next.js dashboard for the AI Research WhatsApp Digest project.
+A Next.js dashboard for the AI Research Telegram Digest project.
 
 ## Features
 

@@ -114,7 +114,7 @@ def summarize_research_detailed(research: dict, api_key: str) -> dict:
     """
     Generate a detailed, comprehensive summary for PDF reports.
 
-    Much longer than WhatsApp summary - full grandma-friendly explanation.
+    Much longer than Telegram summary - full grandma-friendly explanation.
 
     Args:
         research: Research paper dictionary with title, description, source, url, authors

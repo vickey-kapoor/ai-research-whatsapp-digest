@@ -18,5 +18,5 @@
     "blogs": true
   },
   "schedule": "0 16 * * *",
-  "whatsapp_enabled": true
+  "telegram_enabled": true
 }

@@ -1,4 +1,4 @@
-"""Shared pytest fixtures for AI Research WhatsApp Digest tests."""
+"""Shared pytest fixtures for AI Research Telegram Digest tests."""
 
 import pytest
 from unittest.mock import Mock, patch

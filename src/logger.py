@@ -1,4 +1,4 @@
-"""Centralized logging configuration for AI Research WhatsApp Digest."""
+"""Centralized logging configuration for AI Research Telegram Digest."""
 
 import logging
 import os

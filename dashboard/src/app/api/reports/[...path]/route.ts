@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const DEFAULT_REPO = 'vickey-kapoor/ai-research-whatsapp-digest';
+const DEFAULT_REPO = 'vickey-kapoor/ai-research-digest';
 
 async function fetchReportFromGithub(path: string): Promise<Response | null> {
   const base = `https://raw.githubusercontent.com/${DEFAULT_REPO}`;
