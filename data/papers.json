@@ -1,6 +1,21 @@
 {
   "papers": [
     {
+      "id": "0d3a5d63-304e-4ab3-8d52-89d8f866c038",
+      "title": "Meta-Reinforcement Learning with Self-Reflection for Agentic Search",
+      "description": "This paper introduces MR-Search, an in-context meta reinforcement learning (RL) formulation for agentic search with self-reflection. Instead of optimizing a policy within a single independent episode with sparse rewards, MR-Search trains a policy that conditions on past episodes and adapts its search strategy across episodes. MR-Search learns to learn a search strategy with self-reflection, allowing search agents to improve in-context exploration at test-time. Specifically, MR-Search performs...",
+      "source": "Hugging Face",
+      "url": "https://huggingface.co/papers/2603.11327",
+      "published_at": "2026-03-11T21:40:26+00:00",
+      "fetched_at": "2026-03-14T16:39:31.523550Z",
+      "authors": "Teng Xiao, Yige Yuan, Hamish Ivison, Huaisheng Zhu, Faeze Brahman et al. (9 authors)",
+      "topics": [
+        "AI Agent"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
       "id": "713d9eee-82dd-4c5d-8f96-2d6d856b6d4e",
       "title": "XSkill: Continual Learning from Experience and Skills in Multimodal Agents",
       "description": "Multimodal agents can now tackle complex reasoning tasks with diverse tools, yet they still suffer from inefficient tool use and inflexible orchestration in open-ended settings. A central challenge is enabling such agents to continually improve without parameter updates by learning from past trajectories. We identify two complementary forms of reusable knowledge essential for this goal: experiences, providing concise action-level guidance for tool selection and decision making, and skills, pr...",
