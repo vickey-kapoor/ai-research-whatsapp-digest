@@ -1,6 +1,14 @@
 {
   "digests": [
     {
+      "date": "2026-03-15",
+      "top_paper_id": "",
+      "papers_fetched": 10,
+      "pdf_path": "reports/15-Mar/Simple_Recipe_Works_Vision-Language-Action_Models.pdf",
+      "telegram_sent": true,
+      "workflow_run_id": "23114642040"
+    },
+    {
       "date": "2026-03-14",
       "top_paper_id": "",
       "papers_fetched": 10,
